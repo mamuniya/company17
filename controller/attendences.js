@@ -1,18 +1,41 @@
 const attendence = require('../models/index').attendences;
 module.exports = {
 
+    // async getAllattendence(req, res) {
+    //     try {
+    //         const attendenceCollection = await attendence.findAll({ include: ['companies', 'employees'] })
+
+    //         res.status(201).send(attendenceCollection)
+    //     } catch (e) {
+    //         console.log(e)
+    //         res.status(500).send(e)
+    //     }
+    // }
     async getAllattendence(req, res) {
         try {
             const attendenceCollection = await attendence.findAll({ include: ['companies', 'employees'] })
+            const response = [];
+            attendenceCollection.forEach(element => {
+                const obj = {
+                    sl: element.sl,
+                    date: element.date,
+                    emp_id: element.emp_id,
+                    com_id: element.com_id,
+                    attendence: element.attendence,
+                    company_name: element.companies.name,
+                    employee_name: element.employees.name
+                }
+                response.push(obj);
+            })
 
-            // { include: 'companies', include : 'employees' }
-
-            res.status(201).send(attendenceCollection)
+            res.status(201).send(response)
         } catch (e) {
             console.log(e)
             res.status(500).send(e)
         }
-    },
+    }
+
+    ,
     async create(req, res) {
         try {
             const attendenceCollection = await attendence.create({
