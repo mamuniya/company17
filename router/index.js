@@ -26,6 +26,8 @@ module.exports = app => {
     app.patch("/attendence/update/:sl", attendence.update)
     app.delete("/attendence/delete/:sl", attendence.delete)
     app.get("/attendence/all", attendence.getAllattendence)
+    app.get("/attendence/alldetail", attendence.getAllattendenceReport)
+    app.get("/attendence/modified", attendence.modifiedAttendence)
 
 
 }

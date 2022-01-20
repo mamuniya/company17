@@ -1,17 +1,68 @@
 const attendence = require('../models/index').attendences;
 module.exports = {
 
-    // async getAllattendence(req, res) {
-    //     try {
-    //         const attendenceCollection = await attendence.findAll({ include: ['companies', 'employees'] })
+    getAllattendence: async function (req, res) {
+        try {
+            const attendenceCollection = await attendence.findAll({ include: ['companies', 'employees'] })
 
-    //         res.status(201).send(attendenceCollection)
-    //     } catch (e) {
-    //         console.log(e)
-    //         res.status(500).send(e)
-    //     }
-    // }
-    async getAllattendence(req, res) {
+            res.status(201).send(attendenceCollection)
+        } catch (e) {
+            console.log(e)
+            res.status(500).send(e)
+        }
+    },
+    modifiedAttendence: async function (req, res) {
+        try {
+            const attendenceCollection = await attendence.findAll({ include: ['companies', 'employees'] })
+            const response = [];
+            attendenceCollection.forEach(element => {
+                const obj = {
+                    sl: element.sl,
+                    date: element.date,
+                    emp_id: element.emp_id,
+                    com_id: element.com_id,
+                    attendence: element.attendence,
+                    company_name: element.companies.name,
+                    employee_name: element.employees.name
+                }
+                response.push(obj);
+            })
+            const uniqueEmpIdArr = [... new Set(response.map(item => item.emp_id))]
+            let finalData = [];
+            uniqueEmpIdArr.forEach(empId => {
+                var sortedUniqueEmpidArr = response.filter(function (element) {
+                    if (element.emp_id == empId) {
+                        return true
+                    }
+                })
+                let present = 0;
+                let absent = 0;
+                sortedUniqueEmpidArr.forEach(element1 => {
+                    if (element1.attendence == "yes") {
+                        present++;
+                    }
+                    else { absent++ }
+                })
+                const objFile = {
+                    emp_id: empId,
+                    emp_name: sortedUniqueEmpidArr[0].employee_name,
+                    company_name: sortedUniqueEmpidArr[0].company_name,
+                    present_day: present,
+                    absent_day: absent
+                }
+                finalData.push(objFile)
+                // console.log(sortedUniqueEmpidArr);
+            })
+
+
+            res.status(201).send(finalData)
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(e)
+        }
+
+    },
+    async getAllattendenceReport(req, res) {
         try {
             const attendenceCollection = await attendence.findAll({ include: ['companies', 'employees'] })
             const response = [];
