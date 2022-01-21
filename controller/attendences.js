@@ -1,4 +1,5 @@
 const attendence = require('../models/index').attendences;
+const { Op } = require("sequelize");
 module.exports = {
 
     getAllattendence: async function (req, res) {
@@ -148,5 +149,107 @@ module.exports = {
         }
     },
 
+
+    oneEmployeeData: async function (req, res) {
+        try {
+            const oneAttendance = await attendence.findAll({
+                where: { emp_id: req.query.emp_id }
+            })
+            let present = 0;
+            let absent = 0;
+            oneAttendance.forEach(element => {
+                if (element.attendence == "yes") {
+                    present++;
+                }
+                else if (element.attendence == "no") {
+                    absent++;
+                }
+
+            })
+            const finalOutput = {
+                Emp_id: req.query.emp_id,
+                Total_Present: present,
+                Total_absent: absent,
+                Total_working_days: Number(present + absent)
+            }
+
+
+
+            res.status(201).send(finalOutput)
+
+
+
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(e)
+        }
+    },
+    oneEmpDateData: async function (req, res) {
+        try {
+            const oneAttendance = await attendence.findAll({
+                where: {
+                    emp_id: req.query.emp_id,
+                    date: { [Op.between]: ['2021-12-01', '2021-12-31'] }
+                }
+
+            })
+            let present = 0;
+            let absent = 0;
+            oneAttendance.forEach(element => {
+                if (element.attendence == "yes") {
+                    present++;
+                }
+                else if (element.attendence == "no") {
+                    absent++;
+                }
+
+            })
+            const finalOutput = {
+                Emp_id: req.query.emp_id,
+                Total_Present: present,
+                Total_absent: absent,
+                Total_working_days: Number(present + absent)
+            }
+            res.status(201).send(finalOutput)
+
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(e)
+        }
+    },
+
+    oneMonthData: async function (req, res) {
+        try {
+            const oneAttendance = await attendence.findAll({
+                where: {
+                    emp_id: req.query.emp_id,
+                    date: { [Op.between]: [req.query.from, req.query.to] }
+                }
+
+            })
+            let present = 0;
+            let absent = 0;
+            oneAttendance.forEach(element => {
+                if (element.attendence == "yes") {
+                    present++;
+                }
+                else if (element.attendence == "no") {
+                    absent++;
+                }
+
+            })
+            const finalOutput = {
+                Emp_id: req.query.emp_id,
+                Total_Present: present,
+                Total_absent: absent,
+                Total_working_days: Number(present + absent)
+            }
+            res.status(201).send(finalOutput)
+
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(e)
+        }
+    },
 
 }

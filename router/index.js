@@ -30,4 +30,8 @@ module.exports = app => {
     app.get("/attendence/modified", attendence.modifiedAttendence)
 
 
+    app.get("/attendence/one", attendence.oneEmployeeData)
+    app.get("/attendence/monthwise", attendence.oneEmpDateData)
+    app.get("/attendence/onemonth", attendence.oneMonthData)
+
 }
