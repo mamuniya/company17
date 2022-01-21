@@ -14,7 +14,11 @@ module.exports = {
     },
     modifiedAttendence: async function (req, res) {
         try {
-            const attendenceCollection = await attendence.findAll({ include: ['companies', 'employees'] })
+            const attendenceCollection = await attendence.findAll({
+                include: ['companies', 'employees'], where: {
+                    date: { [Op.between]: [req.query.from, req.query.to] }
+                }
+            })
             const response = [];
             attendenceCollection.forEach(element => {
                 const obj = {
