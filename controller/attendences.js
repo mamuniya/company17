@@ -256,4 +256,17 @@ module.exports = {
         }
     },
 
+    // experiment
+    // pagingCall: async function (req, res) {
+    //     try {
+    //         const attendenceCollection = await attendence.findAndCountAll({ include: ['companies', 'employees'], limit: 5 })
+
+    //         res.status(201).send(attendenceCollection)
+    //     } catch (e) {
+    //         console.log(e)
+    //         res.status(500).send(e)
+    //     }
+    // },
+
+
 }

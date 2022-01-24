@@ -22,12 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         attendence: {
             type: DataTypes.STRING,
         },
-        total_days: {
-            type: DataTypes.INTEGER
-        },
-        present_days: {
-            type: DataTypes.INTEGER
-        }
+
 
 
 

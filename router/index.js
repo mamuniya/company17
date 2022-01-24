@@ -21,6 +21,10 @@ module.exports = app => {
     app.patch("/employee/update/:id", employee.update)
     app.delete("/employee/delete/:id", employee.delete)
     app.get("/employee/all", employee.getAllEmployee)
+    app.get("/employee/page", employee.pagingEmployee)
+    app.get("/employee/pm", employee.pagingModifiedEmployee)
+    app.get("/employee/realpage", employee.pagelikeWebsite)
+
 
     app.post("/attendence/create", attendence.create)
     app.patch("/attendence/update/:sl", attendence.update)
@@ -33,5 +37,9 @@ module.exports = app => {
     app.get("/attendence/one", attendence.oneEmployeeData)
     app.get("/attendence/monthwise", attendence.oneEmpDateData)
     app.get("/attendence/onemonth", attendence.oneMonthData)
+
+
+    // app.get("/attendence/pagingCall", attendence.pagingCall)
+    // app.get("/attendence/paging", attendence.pagingModified)
 
 }
